@@ -81,7 +81,7 @@ public class MapsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        //setUpMapIfNeeded();
+        setUpMapIfNeeded();
 
         getSupportActionBar().setTitle("GottaGo!");
 
@@ -93,6 +93,7 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Toast.makeText(this, "-----onMapReady----------", Toast.LENGTH_LONG).show();
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         Toast.makeText(this, "We're here - onMapReady - before version and permission check", Toast.LENGTH_LONG).show();
@@ -266,7 +267,9 @@ public class MapsActivity extends AppCompatActivity
             private void setUpMapIfNeeded() {
                 Toast.makeText(this, "We're here - setUpMapIfNeeded", Toast.LENGTH_LONG).show();
                 if (mGoogleMap == null) {
-                    //mGoogleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                    Toast.makeText(this, "We're here - It's NULL setUpMapIfNeeded", Toast.LENGTH_LONG).show();
+                    //mGoogleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+
                     ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                             .getMapAsync(this);
                     if (mGoogleMap != null) {
@@ -295,6 +298,7 @@ public class MapsActivity extends AppCompatActivity
         HttpURLConnection conn = null;
         final StringBuilder json = new StringBuilder();
         try {
+            Toast.makeText(this, "We're here - Inside Try - retrieveAndAddCities", Toast.LENGTH_LONG).show();
             // Connect to the web service
             URL url = new URL(SERVICE_URL);
             conn = (HttpURLConnection) url.openConnection();
@@ -304,6 +308,7 @@ public class MapsActivity extends AppCompatActivity
             int read;
             char[] buff = new char[1024];
             while ((read = in.read(buff)) != -1) {
+                Toast.makeText(this, "We're here - Inside while loop - retrieveAndAddCities", Toast.LENGTH_LONG).show();
                 json.append(buff, 0, read);
             }
         } catch (IOException e) {
@@ -311,14 +316,17 @@ public class MapsActivity extends AppCompatActivity
             throw new IOException("Error connecting to service", e);
         } finally {
             if (conn != null) {
+                Toast.makeText(this, "We're here - Finish conn - retrieveAndAddCities", Toast.LENGTH_LONG).show();
                 conn.disconnect();
             }
+            Toast.makeText(this, "We're here - Conn not finsihed - retrieveAndAddCities", Toast.LENGTH_LONG).show();
         }
 
         // Must run this on the UI thread since it's a UI operation.
         runOnUiThread(new Runnable() {
             public void run() {
                 try {
+                    //Toast.makeText(this, "We're here - calling creating markers - retrieveAndAddCities", Toast.LENGTH_LONG).show();
                     createMarkersFromJson(json.toString());
                 } catch (JSONException e) {
                     Log.e(LOG_TAG, "Error processing JSON", e);
@@ -328,7 +336,7 @@ public class MapsActivity extends AppCompatActivity
     }
 
     void createMarkersFromJson(String json) throws JSONException {
-
+        Toast.makeText(this, "We're here - createMarkersFromJson", Toast.LENGTH_LONG).show();
         JSONArray jsonArray = new JSONArray(json);
         System.out.print(json);
         List<Marker> markers = new ArrayList<Marker>();
