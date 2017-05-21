@@ -271,7 +271,7 @@ public class MapsActivity extends AppCompatActivity
                     //mGoogleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
 
                     ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                            .getMapAsync(this);
+                            .getMapAsync(this.setUpMap());
                     if (mGoogleMap != null) {
                         Toast.makeText(this, "We're here - Calling setUpMap", Toast.LENGTH_LONG).show();
                         setUpMap();
